@@ -21,14 +21,14 @@ from controllers.simulator_controller import simulator_bp
 from controllers.report_controller import report_bp
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+CORS(app, origins=["https://unrivaled-valkyrie-dd3169.netlify.app"], supports_credentials=True)
 app.config.update(
     MAX_CONTENT_LENGTH=2 * 1024 * 1024,  # NF-e XMLs are ~20 KB
     SECRET_KEY=config.SECRET_KEY,
     SESSION_COOKIE_NAME="oficina_session",
     SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE="Strict",
-    SESSION_COOKIE_SECURE=config.COOKIE_SECURE,
+    SESSION_COOKIE_SAMESITE="None",
+    SESSION_COOKIE_SECURE=True,
     PERMANENT_SESSION_LIFETIME=timedelta(hours=8),
 )
 
