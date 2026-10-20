@@ -1,0 +1,147 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* Etiqueta de peça — papel claro, tinta escura na lateral, teal + latão */
+:root, .dark {
+  --radius: 10px;
+
+  --background: #EAE6DB;             /* papel de oficina */
+  --foreground: #22201B;             /* tinta */
+
+  --card: #F6F3EA;                   /* papel da etiqueta, mais claro */
+  --card-foreground: #22201B;
+
+  --popover: #F6F3EA;
+  --popover-foreground: #22201B;
+
+  --primary: #1F6F6B;                /* teal ferramenta */
+  --primary-foreground: #F6F3EA;
+
+  --secondary: #DED7C6;
+  --secondary-foreground: #22201B;
+
+  --muted: #E1DBCC;
+  --muted-foreground: #6B6355;
+
+  --accent: #C97A2E;                 /* latão / carimbo */
+  --accent-foreground: #2A1B0C;
+
+  --destructive: #B33F32;
+  --destructive-foreground: #F6F3EA;
+
+  --success: #4B7B4F;
+  --success-foreground: #F6F3EA;
+
+  --warning: #C97A2E;
+  --warning-foreground: #2A1B0C;
+
+  --border: #D3CBB6;
+  --input: #DED7C6;
+  --ring: #1F6F6B;
+
+  --sidebar: #201D18;                /* parede/pegboard escura */
+  --sidebar-foreground: #EAE6DB;
+  --sidebar-primary: #C97A2E;
+  --sidebar-primary-foreground: #2A1B0C;
+  --sidebar-accent: #2C2820;
+  --sidebar-accent-foreground: #F6F3EA;
+  --sidebar-border: #38332A;
+  --sidebar-ring: #C97A2E;
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html, body, #root { min-height: 100vh; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.01em; }
+  .font-mono, code, pre { font-family: var(--font-mono); }
+  .tabular-nums { font-variant-numeric: tabular-nums; }
+}
+
+/* Etiqueta pendurada: pílula com um "furo" perfurado à esquerda,
+   como as fichas de identificação de peça penduradas na oficina. */
+@utility tag-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.3em 0.85em 0.3em 0.55em;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-muted-foreground);
+}
+
+@utility tag-hole {
+  width: 0.55em;
+  height: 0.55em;
+  border-radius: 999px;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+/* Costura pontilhada usada em divisórias de seção */
+@utility stitch-line {
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-border) 0 6px,
+    transparent 6px 12px
+  );
+  background-size: 100% 1px;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+}

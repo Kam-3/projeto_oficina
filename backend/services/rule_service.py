@@ -1,0 +1,26 @@
+from repository import rule_repository, product_repository
+
+
+def list_rules(cursor):
+    rows = rule_repository.list_rules(cursor)
+    return [
+        {
+            "id": r[0],
+            "product_id": r[1],
+            "product_name": r[2] if r[1] else "Default rule (global)",
+            "margin_percentage": float(r[3]),
+            "tax_percentage": float(r[4])
+        }
+        for r in rows
+    ]
+
+
+def save_rule(cursor, product_id, margin, tax):
+    """Returns False if the product doesn't exist, True if saved."""
+    if product_id:
+        if not product_repository.find_by_id(cursor, product_id):
+            return False
+        rule_repository.save_product_rule(cursor, product_id, margin, tax)
+    else:
+        rule_repository.save_global_rule(cursor, margin, tax)
+    return True

@@ -1,0 +1,54 @@
+version: "3.9"
+name: oficina
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: oficina_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      APP_DB_USER: ${APP_DB_USER}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./postgres/00-app-user.sh:/docker-entrypoint-initdb.d/00-app-user.sh
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+
+  backend:
+    build: ../backend
+    container_name: oficina_backend
+    restart: unless-stopped
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${APP_DB_USER}
+      DB_PASSWORD: ${APP_DB_PASSWORD}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      SECRET_KEY: ${SECRET_KEY}
+      COOKIE_SECURE: ${COOKIE_SECURE:-1}
+    depends_on:
+      - db
+    volumes:
+      - uploads_data:/app/uploads
+
+  frontend:
+    build: ../frontend
+    container_name: oficina_frontend
+    restart: unless-stopped
+    environment:
+      TLS_SAN: ${TLS_SAN:-DNS:localhost,IP:127.0.0.1}
+    ports:
+      - "${FRONTEND_PORT}:443"
+    volumes:
+      - certs_data:/etc/nginx/certs
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
+  uploads_data:
+  certs_data:
