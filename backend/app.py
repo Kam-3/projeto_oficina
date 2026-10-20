@@ -21,6 +21,7 @@ from controllers.simulator_controller import simulator_bp
 from controllers.report_controller import report_bp
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 app.config.update(
     MAX_CONTENT_LENGTH=2 * 1024 * 1024,  # NF-e XMLs are ~20 KB
     SECRET_KEY=config.SECRET_KEY,
