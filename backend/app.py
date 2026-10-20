@@ -2,6 +2,7 @@ import logging
 import os
 from datetime import timedelta
 
+from flask_cors import CORS
 from flask import Flask, jsonify
 from werkzeug.exceptions import HTTPException
 from werkzeug.middleware.proxy_fix import ProxyFix
